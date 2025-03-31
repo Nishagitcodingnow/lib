@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Book - BookNest.com</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            background-color: #343a40;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 600;
+            margin-left: 20px;
+        }
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            margin-right: 20px;
+        }
+        .navbar ul li {
+            margin: 0 15px;
+        }
+        .navbar ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        .navbar ul li a:hover {
+            color: #17a2b8;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #bookList {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9f5e9;
+            border-radius: 5px;
+        }
+        .book-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+        }
+        .book-item a {
+            display: block;
+            margin-top: 5px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .book-item a:hover {
+            text-decoration: underline;
+        }
+        #noResults {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">📚 BookNest.com</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="books.html">Books</a></li>
+                <li><a href="add.html">Add Book</a></li>
+                <li><a href="search.html">Search</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Search a Book</h2>
+        <input type="text" id="searchInput" placeholder="Search by book title...">
+        <div id="bookList">
+            <h3>Book Results:</h3>
+            <div id="booksContainer"></div>
+            <p id="noResults">Book not available.</p>
+        </div>
+    </div>
+    
+    <script>
+        let books = [
+            { title: "Atomic Habits", author: "James Clear", genre: "Fiction", pdf: "Atomic habits.pdf" },
+            { title: "1984", author: "George Orwell", genre: "Adventure",  pdf: "1984.pdf" },
+            { title: "To Kill a Mockingbird", author: "Harper Lee", genre: "Classic", pdf: "mock.pdf" },
+            { title: "The Power of Now", author: "Eckhart Tolle", genre: "Classic", pdf: "now.pdf" },
+            { title: "The Selfish Gene", author: "Richard Dawkins", genre: "Classic", pdf: "selfish.pdf" },
+            { title: "Thinking, Fast and Slow", author: "SDaniel Kahneman", genre: "Classic", pdf: "time.pdf" },
+            { title: "A Brief History of Time", author: "Stephen Hawking", genre: "Classic", pdf: "time.pdf" }
+        ];
+
+        function displayBooks(filter = "") {
+            let booksContainer = document.getElementById("booksContainer");
+            let noResults = document.getElementById("noResults");
+            booksContainer.innerHTML = "";
+            
+            let filteredBooks = books.filter(book => 
+                book.title.toLowerCase().includes(filter.toLowerCase())
+            );
+            
+            if (filteredBooks.length === 0) {
+                noResults.style.display = "block";
+            } else {
+                noResults.style.display = "none";
+            }
+            
+            filteredBooks.forEach(book => {
+                let bookItem = document.createElement("div");
+                bookItem.classList.add("book-item");
+                bookItem.innerHTML = `<p><strong>Title:</strong> ${book.title}</p>
+                                      <p><strong>Author:</strong> ${book.author}</p>
+                                      <p><strong>Genre:</strong> ${book.genre}</p>
+                                      <a href="${book.pdf}" target="_blank">Read Book</a>`;
+                booksContainer.appendChild(bookItem);
+            });
+        }
+
+        document.getElementById("searchInput").addEventListener("input", function() {
+            displayBooks(this.value);
+        });
+
+        displayBooks();
+    </script>
+    <div class="footer">&copy; 2025 BookNest.com</div>
+</body>
+</html>
